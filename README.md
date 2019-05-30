@@ -1,6 +1,6 @@
 # poetry
 
-A new Flutter application.
+一个关于离线 唐诗 宋词的flutter app 内置 shici.db .
 
 ## Getting Started
 
