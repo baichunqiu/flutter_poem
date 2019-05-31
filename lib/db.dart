@@ -2,6 +2,7 @@ import 'package:path/path.dart';
 import 'package:poetry/module/poem.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'module/base.dart';
 import 'module/ci.dart';
 
 Db db = new Db();
@@ -134,14 +135,31 @@ class Db {
     return SongCi.fromMapList(dataMap);
   }
 
+  Future<List<Base>> searchByTag(String tag) async {
+    if (null == _db) await open();
+    print("searchByTag: tag = $tag");
+    String sql_ci = "SELECT * FROM " + Tab_Ci + " WHERE tag = ?";
+    String sql_poem = "SELECT * FROM " + Tab_Poem + " WHERE tag = ?";
+    List<Map<String, dynamic>> poemMap = await _db.rawQuery(sql_poem, [tag]);
+    List<Map<String, dynamic>> ciMap = await _db.rawQuery(sql_ci, [tag]);
+    List<Base> tagAll = new List();
+    if (null != poemMap && poemMap.isNotEmpty) {
+      tagAll.addAll(Poem.fromMapList(poemMap));
+    }
+    if (null != ciMap && ciMap.isNotEmpty) {
+      tagAll.addAll(SongCi.fromMapList(ciMap));
+    }
+    return tagAll;
+  }
+
   Future<int> updateTag(String table, String tag, int id) async {
     if (id == null) {
       return -1;
     }
     if (null == _db) await open();
-    String oldTag = await getTagById(table,id);
-    _deleteTag(oldTag);
-    _insertTag(tag);
+    String oldTag = await getTagById(table, id);
+    await _deleteTag(oldTag);
+    await _insertTag(tag);
     String sql = "UPDATE $table SET tag = ? WHERE id = ?";
     return _db.rawUpdate(sql, [tag, id]);
   }
@@ -156,14 +174,14 @@ class Db {
   Future<int> _insertTag(String tag) async {
     String sql = "SELECT * FROM " + Tab_Tag + " WHERE name = ?";
     List<Map<String, dynamic>> dataMap = await _db.rawQuery(sql, [tag]);
-    if(dataMap != null && dataMap.isNotEmpty){
+    if (dataMap == null || dataMap.isEmpty) {
       return _db.insert(Tab_Tag, {"name": tag});
     }
     return -1;
   }
 
   Future<int> _deleteTag(String tag) async {
-    return _db.delete(Tab_Tag, where:"name = ?",whereArgs:[tag]);
+    return _db.delete(Tab_Tag, where: "name = ?", whereArgs: [tag]);
   }
 
   Future<List<String>> getAllTag() async {

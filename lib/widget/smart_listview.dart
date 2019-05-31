@@ -82,8 +82,6 @@ class _SmartPageState extends State<SmartListView> {
           if (!_loading) _getData(DataType.refresh);
         },
         child: LoadPage(
-//          radiusScale: 0.7,
-//          fontScale: 0.85,
           type: _loading ? Type.Loading : Type.NoData,
         ),
       );
@@ -100,10 +98,7 @@ class _SmartPageState extends State<SmartListView> {
             shrinkWrap: true,
             itemCount: _data.length,
             itemBuilder: (BuildContext context, int index) {
-//              print("itemBuilder _data.length =  ${_data.length}");
-//              print("itemBuilder index =  $index");
               var data = _data[index];
-//              print("itemBuilder data =  $data");
               return widget.itemBuilder(index, data);
             },
             separatorBuilder: (BuildContext context, int index) =>

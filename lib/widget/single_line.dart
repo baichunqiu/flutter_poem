@@ -12,7 +12,7 @@ class SingleLine extends StatelessWidget {
     this.data, {
     Key key,
     this.style,
-    this.textAlign = TextAlign.start,
+    this.textAlign = TextAlign.center,
     this.overflow = TextOverflow.ellipsis,
   }) : super(key: key);
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:poetry/songcis.dart';
+import 'package:poetry/tag_page.dart';
 import 'package:poetry/widget/event_bus.dart';
 import 'package:poetry/poetrys.dart';
 import 'package:poetry/widget/style.dart';
@@ -84,9 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
               case 1:
                 return SongCiPage();
               case 2:
-                return Center(
-                  child: Text("标签功能待完善"),
-                );
+                return TagPage();
             }
           }),
       bottomNavigationBar: BottomNavigationBar(

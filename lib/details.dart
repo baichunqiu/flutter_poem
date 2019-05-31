@@ -60,7 +60,9 @@ class _DetailsState extends State<Details> {
                       Container(
                         margin: EdgeInsets.symmetric(vertical: height * 0.2),
                         child: Text(
-                          widget.data.type == type_poem ? widget.data.txt : widget.data.txt.replaceAll("，", "，\n"),
+                          widget.data.type == type_poem
+                              ? widget.data.txt
+                              : formatTxtInfo(),
                           style: TextStyle(
                               color: Style.color_blue,
                               fontWeight: FontWeight.w500,
@@ -68,13 +70,12 @@ class _DetailsState extends State<Details> {
                         ),
                       ),
                       Offstage(
-                        offstage: (widget.data.type == type_songci &&
-                                null != _author &&
-                                StringUtils.isNoEmpty(_author.describe)) ==
-                            false,
-                        child: Text(
-                            "       ${null == _author ? "" : _author.describe.replaceAll(" ", "")}",
-                            style: Style.style_gray20),
+                        offstage: (widget.data.type == type_songci) == false,
+                        child: Container(
+                          alignment: Alignment.topLeft,
+                          child: Text("       ${formatAuthor()}",
+                              style: Style.style_gray20),
+                        ),
                       ),
                     ]),
               ),
@@ -97,6 +98,33 @@ class _DetailsState extends State<Details> {
             style: Style.style_white18),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  String formatTxtInfo() {
+    String txt = widget.data.txt.replaceAll(" ", "");
+    print("txt =$txt");
+    if (txt.endsWith("\n>>\n词牌介绍")) {
+      txt = txt.replaceAll("\n>>\n词牌介绍", "");
+    }
+    print("txt =$txt");
+    return txt.replaceAll("，", "，\n");
+  }
+
+  ///格式化 作者描述信息
+  String formatAuthor() {
+    if (null == _author || StringUtils.isEmpty(_author.describe)) {
+      return "${widget.data.author}：作者不详。";
+    } else {
+      String des = _author.describe;
+      if (des == "--") {
+        return "${widget.data.author}：作者不详。";
+      }
+      if (des.startsWith("--")) {
+        des = des.replaceFirst("--", "${widget.data.author}：");
+      }
+      des = des.replaceAll(" ", "");
+      return des;
+    }
   }
 
   TextEditingController _controller = new TextEditingController();
