@@ -24,21 +24,45 @@ class _TagState extends State<TagPage> {
   static final double itemHeight = ScreenUtil.getInstance().setHeight(90);
 
   @override
+  void dispose() {
+    super.dispose();
+    bus.off(EventTag.Event_Search_Tag);
+  }
+
+  String _search = "";
+
+  @override
+  void initState() {
+    super.initState();
+    bus.on(EventTag.Event_Search_Tag, (e) {
+      _search = e.arg0;
+      print("search tag = ${e.arg0}");
+      bus.emit(SmartListView.Refresh_Event);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-        child: SmartListView(
-      itemBuilder: _buildItemWidget,
-      dataBuilder: (refresh) async {
-        if (refresh == DataType.load) return Future.value();
-        List<String> tags = await db.getAllTag();
-        if (tags == null || tags.isEmpty) {
-          ToastManager.showAndroid("您还没有添加标签，快去添加吧！");
-        } else {
-          ToastManager.showAndroid("共 ${tags.length} 个标签");
-        }
-        return Future.value(tags);
-      },
-    ));
+      child: SmartListView(
+        itemBuilder: _buildItemWidget,
+        dataBuilder: (refresh) async {
+          if (refresh == DataType.load) return Future.value();
+          List<String> tags = null;
+          if (StringUtils.isNoEmpty(_search)) {
+            tags = await db.searchTag(_search);
+          } else {
+            tags = await db.getAllTag();
+          }
+          if (tags == null || tags.isEmpty) {
+            ToastManager.showAndroid("您还没有添加标签，快去添加吧！");
+          } else {
+            ToastManager.showAndroid("共 ${tags.length} 个标签");
+          }
+          return Future.value(tags);
+        },
+      ),
+    );
   }
 
   Widget _buildItemWidget(int index, dynamic item) {
@@ -59,16 +83,18 @@ class _TagState extends State<TagPage> {
                   new FlatButton(
                       child: new Text("取消"),
                       onPressed: () => Navigator.of(context).pop()),
-                  new FlatButton(child: new Text("确定"), onPressed: (){
-                    Navigator.of(context).pop();
-                   db.deleteTag(tag).then((success){
-                     if(success){
-                       setState(() {
-                         bus.emit(SmartListView.Refresh_Event);
-                       });
-                     }
-                   });
-                  })
+                  new FlatButton(
+                      child: new Text("确定"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        db.deleteTag(tag).then((success) {
+                          if (success) {
+                            setState(() {
+                              bus.emit(SmartListView.Refresh_Event);
+                            });
+                          }
+                        });
+                      })
                 ],
               ),
         );

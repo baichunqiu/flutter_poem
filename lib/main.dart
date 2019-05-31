@@ -5,6 +5,7 @@ import 'package:poetry/tag_page.dart';
 import 'package:poetry/widget/event_bus.dart';
 import 'package:poetry/poetrys.dart';
 import 'package:poetry/widget/style.dart';
+import 'package:poetry/widget/toast.dart';
 
 import 'db.dart';
 
@@ -54,19 +55,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.instance = ScreenUtil(width: 720, height: 1280)..init(context);
+    ScreenUtil.instance = ScreenUtil(width: 720, height: 1280)
+      ..init(context);
     return Scaffold(
       appBar: AppBar(
         title: _selectedIndex == 2
             ? Text("标签")
             : Text.rich(TextSpan(children: [
-                TextSpan(text: _selectedIndex == 0 ? "唐诗 " : "宋词 "),
-                TextSpan(
-                    text: _selectedIndex == 0
-                        ? _countPoem == 0 ? "" : "（共 $_countPoem首）"
-                        : _countSongCi == 0 ? "" : "（共 $_countSongCi篇）",
-                    style: Style.style_white18),
-              ])),
+          TextSpan(text: _selectedIndex == 0 ? "唐诗 " : "宋词 "),
+          TextSpan(
+              text: _selectedIndex == 0
+                  ? _countPoem == 0 ? "" : "（共 $_countPoem首）"
+                  : _countSongCi == 0 ? "" : "（共 $_countSongCi篇）",
+              style: Style.style_white18),
+        ])),
       ),
       body: PageView.builder(
           physics: NeverScrollableScrollPhysics(),
@@ -106,7 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showEditDialog(),
-        child: Text("搜索", style: Style.style_white24),
+        child: Text(
+            "搜索\n${_selectedIndex == 2 ? "标签" : _selectedIndex == 0
+                ? "唐诗"
+                : "宋词"}",
+            style: Style.style_white18),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
@@ -116,9 +122,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void _showEditDialog() {
     showDialog(
         context: context,
-        builder: (c) => AlertDialog(
+        builder: (c) =>
+            AlertDialog(
                 title: Text(
-                  "搜索${_selectedIndex == 0 ? "唐诗" : "宋词"} ",
+                  "搜索${_selectedIndex == 2 ? "标签" : _selectedIndex == 0
+                      ? "唐诗"
+                      : "宋词"}",
                 ),
                 content: TextFormField(
                   style: Style.style_blue24,
@@ -127,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   textAlign: TextAlign.left,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    hintText: "作者、名称、诗文、标签",
+                    hintText: _selectedIndex == 2 ? "标签" : "作者、名称、诗文、标签",
                     hintStyle: TextStyle(color: Style.color_gray),
                   ),
                 ),
@@ -144,7 +153,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.of(context).pop();
                       String info = _controller.text;
                       bus.emit(
-                          _selectedIndex == 0
+                          _selectedIndex == 2
+                              ? EventTag.Event_Search_Tag
+                              : _selectedIndex == 0
                               ? EventTag.Event_Search_Poem
                               : EventTag.Event_Search_Ci,
                           info);

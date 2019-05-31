@@ -145,6 +145,18 @@ class Db {
     return SongCi.fromMapList(dataMap);
   }
 
+  /// 搜索Tag表：tag 模糊查询 ，
+  Future<List<String>> searchTag(String search) async {
+    if (null == _db) await _open();
+    String sql = "SELECT * FROM " + Tab_Tag + " WHERE name like ?";
+    List<Map<String, dynamic>> dataMap = await _db.rawQuery(sql, ["%$search%"]);
+    List<String> tagList = new List();
+    dataMap.forEach((data) {
+      tagList.add(data["name"]);
+    });
+    return tagList;
+  }
+
   /// 根据tag 搜索唐诗和宋词
   Future<List<Base>> searchByTag(String tag) async {
     if (null == _db) await _open();

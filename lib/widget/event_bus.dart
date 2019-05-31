@@ -62,6 +62,7 @@ class EventTag {
 
   ///标题栏 搜索事件
   static const String Event_Search_Poem = "event_search_poem";
+  static const String Event_Search_Tag = "event_search_tag";
   static const String Event_Search_Ci = "event_search_songci";
 
   ///标题栏 日期事件
