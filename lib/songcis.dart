@@ -39,7 +39,7 @@ class _SongCiState extends State<SongCiPage> {
     bus.on(EventTag.Event_Search_Ci, (e) {
       _search = e.arg0;
       print("search songci = ${e.arg0}");
-      bus.emit(SmartListView.Refresh_Event, null);
+      bus.emit(SmartListView.Refresh_Event);
     });
   }
 
@@ -63,7 +63,7 @@ class _SongCiState extends State<SongCiPage> {
                             onPressed: () {
                               Navigator.of(context).pop();
                               _search = tag;
-                              bus.emit(SmartListView.Refresh_Event, null);
+                              bus.emit(SmartListView.Refresh_Event);
                             },
                           )
                         ],

@@ -38,7 +38,7 @@ class _PoemState extends State<Poetrys> {
     bus.on(EventTag.Event_Search_Poem, (e) {
       _search = e.arg0;
       print("search poem = ${e.arg0}");
-      bus.emit(SmartListView.Refresh_Event, null);
+      bus.emit(SmartListView.Refresh_Event);
     });
   }
 
@@ -62,7 +62,7 @@ class _PoemState extends State<Poetrys> {
                             onPressed: () {
                               Navigator.of(context).pop();
                               _search = tag;
-                              bus.emit(SmartListView.Refresh_Event, null);
+                              bus.emit(SmartListView.Refresh_Event);
                             },
                           )
                         ],

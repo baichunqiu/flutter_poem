@@ -5,6 +5,8 @@ import 'package:poetry/widget/single_line.dart';
 import 'package:poetry/widget/style.dart';
 import 'package:poetry/widget/tag.dart';
 
+import '../string_utils.dart';
+
 typedef OnTapRoute = Widget Function(Base data);
 
 class BaseItem extends StatelessWidget {
@@ -60,7 +62,7 @@ class BaseItem extends StatelessWidget {
                     child: Tag(
                       height: height * 0.35,
                       width: height * 0.8,
-                      tag: "${null == data.tag ? "无" : data.tag}",
+                      tag: "${StringUtils.isEmpty(data.tag) ? "无" : data.tag}",
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       onTap: null == data.tag ? null : onTagTap,
                     ),

@@ -120,18 +120,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: Text(
                   "搜索${_selectedIndex == 0 ? "唐诗" : "宋词"} ",
                 ),
-//                title: Column(
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                  children: <Widget>[
-//                    Text(
-//                      "搜索${_selectedIndex == 0 ? "唐诗" : "宋词"} ",
-//                    ),
-//                    Text(
-//                      "（作者、名称、诗文、标签）",
-//                      style: Style.style_gray20,
-//                    )
-//                  ],
-//                ),
                 content: TextFormField(
                   style: Style.style_blue24,
                   controller: _controller,

@@ -49,6 +49,30 @@ class _TagState extends State<TagPage> {
           return TagSearchPage(tag: tag);
         }));
       },
+      onLongPress: () {
+        showDialog(
+          context: context,
+          builder: (c) => AlertDialog(
+                title: Text("删除提示"),
+                content: Text("确认删除标签 $tag ?", style: Style.style_blue24),
+                actions: <Widget>[
+                  new FlatButton(
+                      child: new Text("取消"),
+                      onPressed: () => Navigator.of(context).pop()),
+                  new FlatButton(child: new Text("确定"), onPressed: (){
+                    Navigator.of(context).pop();
+                   db.deleteTag(tag).then((success){
+                     if(success){
+                       setState(() {
+                         bus.emit(SmartListView.Refresh_Event);
+                       });
+                     }
+                   });
+                  })
+                ],
+              ),
+        );
+      },
       child: Container(
         height: itemHeight,
         color: Colors.blue[50],
