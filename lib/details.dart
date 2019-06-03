@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:poetry/string_utils.dart';
+import 'package:poetry/utils/string_utils.dart';
 import 'package:poetry/widget/style.dart';
 import 'package:poetry/widget/toast.dart';
 
-import 'db.dart';
+import 'package:poetry/utils/db.dart';
 import 'module/base.dart';
 import 'module/ci.dart';
 

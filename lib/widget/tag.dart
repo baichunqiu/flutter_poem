@@ -4,7 +4,7 @@ import 'package:poetry/module/base.dart';
 import 'package:poetry/widget/single_line.dart';
 import 'package:poetry/widget/style.dart';
 
-import '../string_utils.dart';
+import 'package:poetry/utils/string_utils.dart';
 
 typedef OnTap = void Function(String data);
 

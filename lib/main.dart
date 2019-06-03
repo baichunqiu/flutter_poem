@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:poetry/songcis.dart';
+import 'package:poetry/songci_page.dart';
 import 'package:poetry/tag_page.dart';
 import 'package:poetry/widget/event_bus.dart';
-import 'package:poetry/poetrys.dart';
+import 'package:poetry/poem_page.dart';
 import 'package:poetry/widget/style.dart';
 import 'package:poetry/widget/toast.dart';
 
-import 'db.dart';
+import 'package:poetry/utils/db.dart';
 
 void main() => runApp(MyApp());
 
@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
           itemBuilder: (con, index) {
             switch (index) {
               case 0:
-                return Poetrys();
+                return PoemPage();
               case 1:
                 return SongCiPage();
               case 2:

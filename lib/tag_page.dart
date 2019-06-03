@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:poetry/module/poem.dart';
-import 'package:poetry/string_utils.dart';
-import 'package:poetry/tag_search.dart';
+import 'package:poetry/utils/string_utils.dart';
+import 'package:poetry/tag_search_page.dart';
 import 'package:poetry/widget/Indicator.dart';
 import 'package:poetry/widget/event_bus.dart';
 import 'package:poetry/widget/single_line.dart';
@@ -10,7 +10,7 @@ import 'package:poetry/widget/smart_listview.dart';
 import 'package:poetry/widget/style.dart';
 import 'package:poetry/widget/toast.dart';
 
-import 'db.dart';
+import 'package:poetry/utils/db.dart';
 import 'details.dart';
 
 class TagPage extends StatefulWidget {

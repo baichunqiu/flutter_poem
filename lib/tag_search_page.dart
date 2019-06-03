@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:poetry/module/poem.dart';
-import 'package:poetry/string_utils.dart';
+import 'package:poetry/utils/string_utils.dart';
 import 'package:poetry/widget/Indicator.dart';
 import 'package:poetry/widget/base_item.dart';
 import 'package:poetry/widget/event_bus.dart';
@@ -12,7 +12,7 @@ import 'package:poetry/widget/smart_listview.dart';
 import 'package:poetry/widget/style.dart';
 import 'package:poetry/widget/toast.dart';
 
-import 'db.dart';
+import 'package:poetry/utils/db.dart';
 import 'details.dart';
 import 'module/base.dart';
 
@@ -45,7 +45,9 @@ class _State extends State<TagSearchPage> {
         appBar: AppBar(
           title: Text.rich(TextSpan(children: [
             TextSpan(text: widget.tag),
-            TextSpan(text: "（标签）", style: Style.style_white18),
+            TextSpan(
+                text: _data == null ? "" : " （ 共 ${_data.length} 首/篇）",
+                style: Style.style_white18),
           ])),
         ),
         body: null == _data

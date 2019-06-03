@@ -1,9 +1,8 @@
 import 'package:path/path.dart';
+import 'package:poetry/module/base.dart';
+import 'package:poetry/module/ci.dart';
 import 'package:poetry/module/poem.dart';
 import 'package:sqflite/sqflite.dart';
-
-import 'module/base.dart';
-import 'module/ci.dart';
 
 Db db = new Db();
 
