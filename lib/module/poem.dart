@@ -30,4 +30,6 @@ class Poem extends Base {
   String toString() {
     return 'Poem{id: $id, title: $title, author: $author, txt: $txt, tag: $tag, type: $type}';
   }
+
+  toJson(Poem poem) => {id: poem.id, title: poem.title, txt: poem.txt, tag: poem.tag};
 }

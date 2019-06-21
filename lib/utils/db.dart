@@ -39,12 +39,7 @@ class Db {
       await _open();
     }
     String sql = "SELECT COUNT(*) FROM $table";
-    List<Map<String, dynamic>> counts = await _db.rawQuery(sql, null);
-    if (null != counts && counts.isNotEmpty) {
-      Map<String, dynamic> count = counts[0];
-      return count["COUNT(*)"];
-    }
-    return 0;
+    return Sqflite.firstIntValue(await _db.rawQuery(sql));
   }
 
   /// 根据id查询唐诗
@@ -224,7 +219,7 @@ class Db {
   /// 获取Tag 表中所有的tag
   Future<List<String>> getAllTag() async {
     String sql = "SELECT * FROM " + Tab_Tag;
-    List<Map<String, dynamic>> dataMap = await _db.rawQuery(sql, null);
+    List<Map<String, dynamic>> dataMap = await _db.rawQuery(sql);
     List<String> tagList = new List();
     dataMap.forEach((data) {
       tagList.add(data["name"]);
